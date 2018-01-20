@@ -1,0 +1,7 @@
+.git
+.setting
+Debug
+.cproject
+.gitignore.swp
+.project
+*.exe
