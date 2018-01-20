@@ -11,12 +11,12 @@ typedef struct BiNode {
 
 typedef struct BiNode *BiTree;
 
-void init(BiTree *biTree) {
-
+void initTree(BiTree *biTree) {
+	*biTree = NULL;
 }
 
 // 采用先序方式创建二叉树
-void create(BiTree *biTree) {
+void createTree(BiTree *biTree) {
 	ElementType ch;
 	scanf("%c", &ch);
 	if (ch == '#') {
@@ -25,9 +25,21 @@ void create(BiTree *biTree) {
 	}
 	*biTree = (BiTree) malloc(sizeof(BiNode));
 	(*biTree)->data = ch;
-	create(&(*biTree)->lchild);
-	create(&(*biTree)->rchild);
+	createTree(&(*biTree)->lchild);
+	createTree(&(*biTree)->rchild);
 }
+
+int treeDepth(BiTree biTree) {
+	if (biTree) {
+		int leftBiTreeDepth = treeDepth(biTree->lchild);
+		int rightBiTreeDepth = treeDepth(biTree->rchild);
+		return leftBiTreeDepth > rightBiTreeDepth ?
+				leftBiTreeDepth + 1 : rightBiTreeDepth + 1;
+	}
+	return 0;
+}
+
+// 先序遍历二叉树
 void preOrderTraverse(BiTree biTree) {
 	if (!biTree) {
 		return;
@@ -37,6 +49,7 @@ void preOrderTraverse(BiTree biTree) {
 	preOrderTraverse(biTree->rchild);
 }
 
+// 中序遍历二叉树
 void inOrderTraverse(BiTree biTree) {
 	if (!biTree) {
 		return;
@@ -46,6 +59,7 @@ void inOrderTraverse(BiTree biTree) {
 	inOrderTraverse(biTree->rchild);
 }
 
+// 后序遍历二叉树
 void postOrderTraverse(BiTree biTree) {
 	if (!biTree) {
 		return;
@@ -57,9 +71,14 @@ void postOrderTraverse(BiTree biTree) {
 
 int main() {
 	BiTree biTree;
-	create(&biTree);
+	initTree(&biTree);
+	createTree(&biTree);
 	preOrderTraverse(biTree);
+	printf("\n");
 	inOrderTraverse(biTree);
+	printf("\n");
 	postOrderTraverse(biTree);
+	printf("\n");
+	printf("tree depth = %d",treeDepth(biTree));
 	return 0;
 }
