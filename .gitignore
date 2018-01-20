@@ -1,6 +1,6 @@
-.git
-.setting
-Debug
+.git/
+.setting/
+Debug/
 .cproject
 .gitignore.swp
 .project
