@@ -69,14 +69,14 @@ Boolean push(Stack *stack, ElementType e) {
 }
 
 Boolean pop(Stack *stack, ElementType *e) {
-	if (stack->top == NULL) {
+	if (stackEmpty(*stack)) {
 		return FAILURE;
 	}
 	*e = stack->top->data;
-	stack->length--;
 	StackNode *temp = stack->top;
 	stack->top = temp->next;
 	free(temp);
+	stack->length--;
 	return SUCCESS;
 }
 
