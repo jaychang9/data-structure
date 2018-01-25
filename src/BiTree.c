@@ -29,6 +29,7 @@ void createTree(BiTree *biTree) {
 	createTree(&(*biTree)->rchild);
 }
 
+// 求树的深度
 int treeDepth(BiTree biTree) {
 	if (biTree) {
 		int leftBiTreeDepth = treeDepth(biTree->lchild);
