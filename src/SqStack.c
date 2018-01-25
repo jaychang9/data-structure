@@ -11,11 +11,10 @@ typedef int ElementType;
 typedef int Status;
 typedef int Boolean;
 
-typedef struct SqStack{
+typedef struct {
 	ElementType data[MAXSIZE];
 	int top;
-	struct SqStack next;
-} SqStack, Stack;
+} Stack;
 void initStack(Stack *stack) {
 	stack->top = -1;
 }
