@@ -3,7 +3,7 @@ RM := rm -f
 CCFLAGS = -DDEBUG -g -g3 -gdwarf-2
 LIBS =
   
-all: LinkedList SqList BiTree SqStack SqStackApp LinkedStack
+all: LinkedList SqList BiTree SqStack SqStackApp LinkedStack Sort
 
 LinkedList:	src/LinkedList.c
 	${CC} ${CCFLAGS} -o Debug/LinkedList src/LinkedList.c
@@ -21,7 +21,11 @@ SqStackApp: src/SqStackApp.c
 	${CC} ${CCFLAGS} -o Debug/SqStackApp src/SqStackApp.c
 
 LinkedStack: src/LinkedStack.c
-	${CC} ${CCFLAGS} -o Debug/LinkedStack src/LinkedStack.c		
+	${CC} ${CCFLAGS} -o Debug/LinkedStack src/LinkedStack.c
+	
+	
+Sort: src/Sort.c
+	${CC} ${CCFLAGS} -o Debug/Sort src/Sort.c
 
 
 #debug: CCFLAGS += -DDEBUG -g

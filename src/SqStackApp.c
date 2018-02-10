@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-
 #define MAXSIZE 20
 #define TRUE 1
 #define FALSE 0
@@ -11,53 +10,71 @@ typedef int ElementType;
 typedef int Status;
 typedef int Boolean;
 
-typedef struct {
-	ElementType data[MAXSIZE];
-	int top;
+typedef struct StackNode {
+	ElementType data;
+	struct StackNode *next;
+} StackNode;
+
+typedef struct LinkedStack {
+	StackNode *top;
+	int length;
 } Stack;
+
 void initStack(Stack *stack) {
-	stack->top = -1;
+	stack->top = NULL;
+	stack->length = 0;
 }
 
 void destroyStack(Stack *stack) {
+	while (stack->top != NULL) {
+		StackNode *cur = stack->top;
+		stack->top = cur->next;
+		free(cur);
+	}
 	free(stack);
 }
 
 Status clearStack(Stack *stack) {
-	return TRUE;
+	while (stack->top != NULL) {
+		StackNode *cur = stack->top;
+		stack->top = cur->next;
+		free(cur);
+	}
+	return SUCCESS;
 }
 
 Status stackEmpty(Stack stack) {
-	return stack.top == -1 ? TRUE : FALSE;
+	return stack.length == 0 ? TRUE : FALSE;
 }
 
 Boolean getTop(Stack stack, ElementType *e) {
-	if (stack.top == -1) {
-		return FAILURE;
-	}
-	*e = stack.data[stack.top];
+	*e = stack.top->data;
 	return SUCCESS;
 }
 
 Boolean push(Stack *stack, ElementType e) {
-	//printf("push e %d\n", e);
-	if (stack->top == MAXSIZE - 1) {
-		return FAILURE;
-	}
-	stack->data[++stack->top] = e;
+	StackNode *newStackNode = (StackNode*) malloc(sizeof(StackNode));
+	newStackNode->data = e;
+	newStackNode->next = stack->top;
+	stack->top = newStackNode;
+	stack->length++;
 	return SUCCESS;
 }
 
 Boolean pop(Stack *stack, ElementType *e) {
-	if (stack->top == -1) {
+	if (stackEmpty(*stack)) {
 		return FAILURE;
 	}
-	*e = stack->data[stack->top--];
+	*e = stack->top->data;
+	StackNode *temp = stack->top;
+	stack->top = temp->next;
+	free(temp);
+	stack->length--;
 	return SUCCESS;
 }
 
 int stackLength(Stack stack) {
-	return stack.top + 1;
+	return stack.length;
 }
 
 // 斐波那契额数列某项值，用栈实现

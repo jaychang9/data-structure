@@ -15,6 +15,7 @@ typedef struct {
 	ElementType data[MAXSIZE];
 	int top;
 } Stack;
+
 void initStack(Stack *stack) {
 	stack->top = -1;
 }
