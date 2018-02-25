@@ -14,24 +14,24 @@ typedef struct Node {
 
 typedef struct Node *LinkedList;
 
-void listInit(LinkedList *list, int n) {
+void listInit(LinkedList *list) {
 	// 头结点数据域存储链表长度
-	(*list)->data = n;
+	(*list)->data = 0;
 	(*list)->next = NULL;
 	// list的值是linkedList的地址，所以跟&linkedList是一样的
-	printf("init method list's address = %p\n", list);
+	//printf("init method list's address = %p\n", list);
 	// &list是指向linkedList指针的地址
-	printf("init method &list's address = %p\n", &list);
+	//printf("init method &list's address = %p\n", &list);
 	// 是头结点的地址
-	printf("init method *list's address = %p\n", *list);
+	//printf("init method *list's address = %p\n", *list);
 
-	Node *p = (*list);
-	for (int i = 0; i < n; i++) {
-		p->next = (Node*) malloc(sizeof(Node));
-		p->next->data = i;
-		p->next->next = NULL;
-		p = p->next;
-	}
+	//	Node *p = (*list);
+	//	for (int i = 0; i < n; i++) {
+	//		p->next = (Node*) malloc(sizeof(Node));
+	//		p->next->data = i;
+	//		p->next->next = NULL;
+	//		p = p->next;
+	//	}
 }
 
 Status listSearch(LinkedList list, int i, ElementType *e) {
@@ -50,8 +50,8 @@ Status listSearch(LinkedList list, int i, ElementType *e) {
 	return SUCCESS;
 }
 
-Status listInsert(LinkedList list, int i, ElementType e) {
-	Node *p = list;
+Status listInsert(LinkedList linkedList, int i, ElementType e) {
+	Node *p = linkedList;
 	// j=0表示从头结点开始
 	int j = 0;
 	// j < i - 1条件表示循环完成后（j == i - 1结束循环），p指向第i-1个结点
@@ -66,6 +66,7 @@ Status listInsert(LinkedList list, int i, ElementType e) {
 	newNode->data = e;
 	newNode->next = p->next;
 	p->next = newNode;
+	linkedList->data++;
 	return SUCCESS;
 }
 
@@ -83,6 +84,7 @@ Status listDelete(LinkedList linkedList, int i, ElementType *e) {
 	p->next = tmp->next;
 	*e = tmp->data;
 	free(tmp);
+	linkedList->data--;
 	return SUCCESS;
 }
 
@@ -172,7 +174,11 @@ int main() {
 	printf("main method linkedList's address = %p\n", linkedList);
 	// 指向头结点的指针的地址
 	printf("main method &linkedList's address = %p\n", &linkedList);
-	listInit(&linkedList, 10);
+	listInit(&linkedList);
+	for (int i = 1; i <= 10; i++) {
+		ElementType data = i;
+		listInsert(linkedList, i, data);
+	}
 	ElementType searchElement = -1;
 	Status searchResult = listSearch(linkedList, 3, &searchElement);
 	printf("search result:%d,the element is %d\n", searchResult, searchElement);
@@ -191,6 +197,6 @@ int main() {
 			theBackKthNode ? theBackKthNode->data : -1);
 
 	Node *theMiddleNode = listTheMiddleNode(reverseList);
-	printf("the middle node is %d\n",theMiddleNode->data);
+	printf("the middle node is %d\n", theMiddleNode->data);
 	return 0;
 }
